@@ -95,7 +95,7 @@ def api_run(password):
 
 
 @app.route('/api/<password>/restart')
-def api_run(password):
+def api_restart(password):
     print("Received run request")
     password = escape(password)
 
