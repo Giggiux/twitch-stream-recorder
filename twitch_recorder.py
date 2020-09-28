@@ -28,6 +28,7 @@ class TwitchRecorder:
         self.disable_ffmpeg = False
         self.refresh = 60
         self.root_path = config.root_path
+        self.record_path = config.recorded_path
 
         # user configuration
         self.username = config.username
@@ -54,7 +55,7 @@ class TwitchRecorder:
         print(f"Running for {self.username}")
         if not self.isRecording:
             # path to recorded stream
-            recorded_path = os.path.join(self.root_path, "recorded", self.username)
+            recorded_path = os.path.join(self.record_path, "recorded", self.username)
             # path to finished video, errors removed
             processed_path = os.path.join(self.root_path, "processed", self.username)
 
