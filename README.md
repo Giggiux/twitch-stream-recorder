@@ -1,7 +1,7 @@
-# Ancalentari Twitch Stream Recorder
+# Giggiux's Twitch Stream Recorder
 This script allows you to record multiple twitch streams live to .mp4 files.
-It is an improved version of [ancalentari/twitch-stream-recorder](https://github.com/ancalentari/twitch-stream-recorder), with multi channel saving and a very simple **and insecure** http api.  
-It is an improved version of [junian's twitch-recorder](https://gist.github.com/junian/b41dd8e544bf0e3980c971b0d015f5f6), migrated to [**helix**](https://dev.twitch.tv/docs/api) - the new twitch API. It uses OAuth2.
+The idea started as an improved version of [ancalentari/twitch-stream-recorder](https://github.com/ancalentari/twitch-stream-recorder), which itself is an improved version of [junian's twitch-recorder](https://gist.github.com/junian/b41dd8e544bf0e3980c971b0d015f5f6), migrated to [**helix**](https://dev.twitch.tv/docs/api) - the new twitch API. It uses OAuth2.
+This version allows  with channel recording, and possibility to add channels via a very simple **and insecure** http api.  
 ## Requirements
 1. [python3.8](https://www.python.org/downloads/release/python-380/) or higher  
 2. [streamlink](https://streamlink.github.io/)  
@@ -17,6 +17,7 @@ It is an improved version of [junian's twitch-recorder](https://gist.github.com/
 3) Create `config.py` file in the same directory as `twitch-recorder.py` with:
 ```properties
 root_path = "/home/abathur/Videos/twitch"
+recorded_path = "/home/abathur/Videos/twitch"
 username = "defaultUsernameThatIsDefinitelyGoingToBeReplaced"
 client_id = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 client_secret = "zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"

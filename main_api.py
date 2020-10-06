@@ -1,14 +1,13 @@
 from flask import Flask, abort
 from markupsafe import escape
-from twitch_recorder import TwitchRecorder
-from multiprocessing import Process
+from actors.twitch_coordinator import TwitchCoordinator
 import config
 import time
 app = Flask(__name__)
 
-twitch_recorders = []
-processes = []
 channelsFile = 'channels.txt'
+
+coordinator = TwitchCoordinator.start().proxy()
 
 
 def run_all():
@@ -19,36 +18,15 @@ def run_all():
     # you may also want to remove whitespace characters like `\n` at the end of each line
     channels = [x.strip() for x in content]
 
-    # get usernames of already created TwitchRecorder instances
-    channels_ready = map(lambda tr: tr.username, twitch_recorders)
-    # filter already created TwitchRecored instances' username
-    new_channels = [channel for channel in channels if channel not in channels_ready]
-
-    # create new TwitchRecorder instances for new channels
-    for new_channel in new_channels:
-        twitch_recorder = TwitchRecorder()
-        twitch_recorder.username = new_channel
-
-        twitch_recorders.append(twitch_recorder)
-
-    # start all Twitch_Recorders
-    for tr in twitch_recorders:
-        if not tr.isRecording:
-            p1 = Process(target=tr.run)
-            p1.start()
+    for channel in channels:
+        print("adding channel:", channel)
+        coordinator.add_channel(channel)
 
 
 def restart():
     print("Restart started")
-    for tr in twitch_recorders:
-        if not tr.isRecording:
-            print(f"Stopping {tr.username}")
-            tr.stop = True
-
-    # Wait for one loop to end all recorders
-    time.sleep(61)
-
-    run_all()
+    coordinator.stop_all()
+    coordinator.start_all()
 
 
 def write_username_to_file(username):
@@ -56,7 +34,7 @@ def write_username_to_file(username):
         content = f.readlines()
         # you may also want to remove whitespace characters like `\n` at the end of each line
         channels = [x.strip() for x in content]
-        if username not in channels:
+        if username not in channels and len(username) >= 3:
             f.write(f"{username}\n")
 
 
@@ -73,7 +51,7 @@ def api_add_username(password, username):
     if password == config.password:
         print(username, "added")
         write_username_to_file(username)
-        restart()
+        coordinator.add_channel(username)
     else:
         abort(401)
 
@@ -101,7 +79,7 @@ def api_restart(password):
 
     if password == config.password:
         print("Password accepted")
-        restart()
+        coordinator.restart_all()
     else:
         abort(401)
 

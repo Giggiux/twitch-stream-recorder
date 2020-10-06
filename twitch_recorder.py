@@ -21,8 +21,8 @@ class TwitchResponseStatus(enum.Enum):
     ERROR = 4
 
 
-class TwitchRecorder:
-    def __init__(self):
+class OldTwitchRecorder:
+    def __init__(self, username):
         # global configuration
         self.ffmpeg_path = "ffmpeg"
         self.disable_ffmpeg = False
@@ -31,7 +31,7 @@ class TwitchRecorder:
         self.record_path = config.recorded_path
 
         # user configuration
-        self.username = config.username
+        self.username = username
         self.quality = "best"
 
         # twitch configuration
@@ -43,7 +43,7 @@ class TwitchRecorder:
         self.access_token = self.fetch_access_token()
         self.stop = False
         self.isRecording = False
-        print(f"Created TwitchRecorder for {self.username}")
+        print(f"Created TwitchRecorder for {username}")
 
     def fetch_access_token(self):
         token_response = requests.post(self.token_url, timeout=15)
