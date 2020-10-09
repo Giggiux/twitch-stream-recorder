@@ -2,9 +2,11 @@ from flask import Flask, abort
 from markupsafe import escape
 from actors.twitch_coordinator import TwitchCoordinator
 import config
+import logging
 import time
 app = Flask(__name__)
 
+logging.basicConfig(level=logging.INFO)
 channelsFile = 'channels.txt'
 
 coordinator = TwitchCoordinator.start().proxy()

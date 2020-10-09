@@ -75,7 +75,7 @@ class TwitchRecorder(pykka.ThreadingActor):
                           datetime.datetime.now().strftime("%Hh%Mm%Ss"))
             time.sleep(300)
         elif status == TwitchResponseStatus.OFFLINE:
-            logging.info("%s currently offline, checking again in %s seconds", self.username, self.refresh)
+            logging.info("%s currently offline, checking again in %s seconds", self._username, self._refresh)
             time.sleep(self._refresh)
         elif status == TwitchResponseStatus.UNAUTHORIZED:
             logging.info("unauthorized, will attempt to log back in immediately")
