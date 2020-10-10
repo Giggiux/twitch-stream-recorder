@@ -46,7 +46,7 @@ class Ffmpeg(pykka.ThreadingActor):
         processed_filename = filename
         if is_file_name:
             processed_filename = os.path.join(self._processed_path, filename)
-        logging.info("Fixing file:", recorded_filename)
+        logging.info("Fixing file: %s", recorded_filename)
         self._ffmpeg_copy_and_fix_errors(recorded_filename, processed_filename)
 
     def fix_all(self):
